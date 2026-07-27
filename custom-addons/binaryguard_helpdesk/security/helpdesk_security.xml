@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_binaryguard_helpdesk"
+            model="ir.module.category">
+        <field name="name">BinaryGuard Helpdesk</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="privilege_binaryguard_helpdesk"
+            model="res.groups.privilege">
+        <field name="name">BinaryGuard Helpdesk</field>
+        <field name="sequence">40</field>
+        <field name="category_id"
+               ref="binaryguard_helpdesk.module_category_binaryguard_helpdesk"/>
+    </record>
+
+    <record id="group_binaryguard_helpdesk_user"
+            model="res.groups">
+        <field name="name">Helpdesk User</field>
+        <field name="privilege_id"
+               ref="binaryguard_helpdesk.privilege_binaryguard_helpdesk"/>
+    </record>
+
+    <record id="group_binaryguard_helpdesk_manager"
+            model="res.groups">
+        <field name="name">Helpdesk Manager</field>
+        <field name="privilege_id"
+               ref="binaryguard_helpdesk.privilege_binaryguard_helpdesk"/>
+        <field name="implied_ids"
+               eval="[(4, ref('binaryguard_helpdesk.group_binaryguard_helpdesk_user'))]"/>
+    </record>
+
+</odoo>

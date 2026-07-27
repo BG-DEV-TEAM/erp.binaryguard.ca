@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="menu_binaryguard_helpdesk_root"
+        name="BinaryGuard Helpdesk"
+        sequence="45"
+        groups="binaryguard_helpdesk.group_binaryguard_helpdesk_user"
+    />
+
+    <menuitem
+        id="menu_binaryguard_helpdesk_tickets"
+        name="All Tickets"
+        parent="menu_binaryguard_helpdesk_root"
+        action="action_binaryguard_helpdesk_tickets"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_binaryguard_helpdesk_my_tickets"
+        name="My Tickets"
+        parent="menu_binaryguard_helpdesk_root"
+        action="action_binaryguard_helpdesk_my_tickets"
+        sequence="20"
+    />
+
+</odoo>
