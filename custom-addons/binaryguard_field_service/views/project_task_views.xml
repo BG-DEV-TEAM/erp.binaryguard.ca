@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_task_binaryguard" model="ir.ui.view">
+        <field name="name">project.task.binaryguard</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+
+                <page string="BinaryGuard Field Service">
+
+                    <group>
+
+                        <field name="binaryguard_customer"/>
+                        <field name="binaryguard_site"/>
+                        <field name="binaryguard_system"/>
+                        <field name="binaryguard_technician"/>
+                        <field name="binaryguard_visit_date"/>
+                        <field name="binaryguard_service_status"/>
+                        <field name="binaryguard_notes"/>
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
