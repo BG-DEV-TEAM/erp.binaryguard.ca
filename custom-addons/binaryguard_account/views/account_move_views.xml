@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_form_binaryguard"
+            model="ir.ui.view">
+
+        <field name="name">binaryguard.account.move.form</field>
+
+        <field name="model">account.move</field>
+
+        <field name="inherit_id"
+               ref="account.view_move_form"/>
+
+        <field name="arch"
+               type="xml">
+
+            <xpath expr="//notebook"
+                   position="inside">
+
+                <page string="BinaryGuard">
+
+                    <group>
+
+                        <field name="binaryguard_project"/>
+
+                        <field name="binaryguard_contract"/>
+
+                        <field name="binaryguard_site"/>
+
+                        <field name="binaryguard_service_ticket"/>
+
+                        <field name="binaryguard_po_number"/>
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>
