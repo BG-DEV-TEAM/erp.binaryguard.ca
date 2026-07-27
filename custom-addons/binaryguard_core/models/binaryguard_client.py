@@ -32,15 +32,11 @@ class BinaryGuardClient(models.Model):
     notes = fields.Text(
         string="Notes",
     )
+    _name_unique = models.Constraint(
+    "UNIQUE(name)",
+    "A client with this name already exists.",
 
-    _sql_constraints = [
-        (
-            "binaryguard_client_name_unique",
-            "unique(name)",
-            "A client with this name already exists.",
-        ),
-    ]
-
+    )
     @api.constrains("email")
     def _check_email_format(self):
         for record in self:
