@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_binaryguard_asset_list" model="ir.ui.view">
+        <field name="name">binaryguard.asset.list</field>
+        <field name="model">binaryguard.asset</field>
+        <field name="arch" type="xml">
+            <list string="Assets"
+                  decoration-success="status == 'installed'"
+                  decoration-warning="status in ('maintenance', 'repair')"
+                  decoration-muted="status in ('retired', 'disposed')"
+                  decoration-danger="status == 'lost'">
+                <field name="name"/>
+                <field name="asset_name"/>
+                <field name="asset_type"/>
+                <field name="ownership"/>
+                <field name="customer_id"/>
+                <field name="manufacturer"/>
+                <field name="model_number"/>
+                <field name="serial_number"/>
+                <field name="site_location"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_asset_form" model="ir.ui.view">
+        <field name="name">binaryguard.asset.form</field>
+        <field name="model">binaryguard.asset</field>
+        <field name="arch" type="xml">
+            <form string="Asset">
+                <header>
+                    <field name="status"
+                           widget="statusbar"
+                           statusbar_visible="draft,in_stock,assigned,installed,maintenance,repair,retired"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="asset_name"/>
+                        <h1>
+                            <field name="asset_name"
+                                   placeholder="Asset name"/>
+                        </h1>
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Asset Information">
+                            <field name="asset_type"/>
+                            <field name="ownership"/>
+                            <field name="customer_id"
+                                   invisible="ownership != 'customer'"/>
+                            <field name="product_id"/>
+                            <field name="asset_tag"/>
+                            <field name="serial_number"/>
+                        </group>
+
+                        <group string="Equipment Details">
+                            <field name="manufacturer"/>
+                            <field name="model_number"/>
+                            <field name="firmware_version"/>
+                            <field name="ip_address"/>
+                            <field name="mac_address"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Assignment and Location">
+                            <group>
+                                <group>
+                                    <field name="site_location"/>
+                                    <field name="installation_date"/>
+                                    <field name="assigned_employee_id"/>
+                                    <field name="assigned_technician_id"/>
+                                </group>
+
+                                <group>
+                                    <field name="project_id"/>
+                                    <field name="field_service_task_id"/>
+                                    <field name="helpdesk_ticket_id"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Warranty">
+                            <group>
+                                <field name="warranty_start"/>
+                                <field name="warranty_end"/>
+                            </group>
+                        </page>
+
+                        <page string="Technical Notes">
+                            <field name="notes"
+                                   placeholder="Configuration, installation, maintenance and lifecycle notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_asset_search" model="ir.ui.view">
+        <field name="name">binaryguard.asset.search</field>
+        <field name="model">binaryguard.asset</field>
+        <field name="arch" type="xml">
+            <search string="Search Assets">
+                <field name="name"/>
+                <field name="asset_name"/>
+                <field name="serial_number"/>
+                <field name="asset_tag"/>
+                <field name="customer_id"/>
+                <field name="manufacturer"/>
+                <field name="model_number"/>
+
+                <separator/>
+
+                <filter name="installed"
+                        string="Installed"
+                        domain="[('status', '=', 'installed')]"/>
+
+                <filter name="maintenance"
+                        string="Maintenance"
+                        domain="[('status', 'in', ['maintenance', 'repair'])]"/>
+
+                <filter name="customer_owned"
+                        string="Customer Owned"
+                        domain="[('ownership', '=', 'customer')]"/>
+
+                <filter name="company_owned"
+                        string="BinaryGuard Owned"
+                        domain="[('ownership', '=', 'company')]"/>
+
+                <separator/>
+
+                <filter name="group_customer"
+                        string="Customer"
+                        context="{'group_by': 'customer_id'}"/>
+
+                <filter name="group_type"
+                        string="Asset Type"
+                        context="{'group_by': 'asset_type'}"/>
+
+                <filter name="group_status"
+                        string="Status"
+                        context="{'group_by': 'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_binaryguard_assets" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">binaryguard.asset</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="view_binaryguard_asset_search"/>
+    </record>
+
+    <menuitem
+        id="menu_binaryguard_assets_root"
+        name="BinaryGuard Assets"
+        sequence="50"
+    />
+
+    <menuitem
+        id="menu_binaryguard_assets"
+        name="Assets"
+        parent="menu_binaryguard_assets_root"
+        action="action_binaryguard_assets"
+        sequence="10"
+    />
+
+</odoo>
