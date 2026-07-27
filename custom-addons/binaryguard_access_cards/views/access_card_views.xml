@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_binaryguard_access_card_list"
+            model="ir.ui.view">
+        <field name="name">binaryguard.access.card.list</field>
+        <field name="model">binaryguard.access.card</field>
+        <field name="arch" type="xml">
+            <list string="Access Cards"
+                  decoration-success="status == 'active'"
+                  decoration-warning="status in ('requested', 'approved', 'suspended')"
+                  decoration-danger="status in ('lost', 'stolen')"
+                  decoration-muted="status in ('expired', 'returned', 'cancelled')">
+                <field name="name"/>
+                <field name="card_number"/>
+                <field name="facility_code"/>
+                <field name="cardholder_name"/>
+                <field name="customer_id"/>
+                <field name="card_type"/>
+                <field name="site_location"/>
+                <field name="access_level"/>
+                <field name="expiry_date"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_access_card_form"
+            model="ir.ui.view">
+        <field name="name">binaryguard.access.card.form</field>
+        <field name="model">binaryguard.access.card</field>
+        <field name="arch" type="xml">
+            <form string="Access Card">
+                <header>
+                    <field name="status"
+                           widget="statusbar"
+                           statusbar_visible="draft,requested,approved,active,suspended,expired,returned,cancelled"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="cardholder_name"/>
+                        <h1>
+                            <field name="cardholder_name"
+                                   placeholder="Cardholder name"/>
+                        </h1>
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Card Information">
+                            <field name="card_number"/>
+                            <field name="facility_code"/>
+                            <field name="card_format"/>
+                            <field name="card_type"/>
+                            <field name="ownership"/>
+                            <field name="access_level"/>
+                        </group>
+
+                        <group string="Cardholder">
+                            <field name="customer_id"/>
+                            <field name="employee_id"/>
+                            <field name="department"/>
+                            <field name="job_title"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Location and Dates">
+                            <group>
+                                <group string="Location">
+                                    <field name="site_location"/>
+                                    <field name="building"/>
+                                </group>
+
+                                <group string="Lifecycle Dates">
+                                    <field name="issue_date"/>
+                                    <field name="activation_date"/>
+                                    <field name="expiry_date"/>
+                                    <field name="return_date"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Related Records">
+                            <group>
+                                <field name="related_asset_id"/>
+                                <field name="project_id"/>
+                                <field name="contract_id"/>
+                                <field name="helpdesk_ticket_id"/>
+                                <field name="assigned_by_id"/>
+                                <field name="approved_by_id"/>
+                            </group>
+                        </page>
+
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_access_card_search"
+            model="ir.ui.view">
+        <field name="name">binaryguard.access.card.search</field>
+        <field name="model">binaryguard.access.card</field>
+        <field name="arch" type="xml">
+            <search string="Search Access Cards">
+                <field name="name"/>
+                <field name="card_number"/>
+                <field name="cardholder_name"/>
+                <field name="customer_id"/>
+                <field name="facility_code"/>
+                <field name="site_location"/>
+
+                <separator/>
+
+                <filter name="active_cards"
+                        string="Active"
+                        domain="[('status', '=', 'active')]"/>
+
+                <filter name="expiring_cards"
+                        string="Expired"
+                        domain="[('status', '=', 'expired')]"/>
+
+                <filter name="lost_cards"
+                        string="Lost or Stolen"
+                        domain="[('status', 'in', ['lost', 'stolen'])]"/>
+
+                <filter name="requested_cards"
+                        string="Pending Approval"
+                        domain="[('status', 'in', ['requested', 'approved'])]"/>
+
+                <separator/>
+
+                <filter name="group_customer"
+                        string="Customer"
+                        context="{'group_by': 'customer_id'}"/>
+
+                <filter name="group_type"
+                        string="Card Type"
+                        context="{'group_by': 'card_type'}"/>
+
+                <filter name="group_status"
+                        string="Status"
+                        context="{'group_by': 'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_binaryguard_access_cards"
+            model="ir.actions.act_window">
+        <field name="name">Access Cards</field>
+        <field name="res_model">binaryguard.access.card</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="view_binaryguard_access_card_search"/>
+    </record>
+
+    <menuitem
+        id="menu_binaryguard_access_cards_root"
+        name="BinaryGuard Access Cards"
+        sequence="65"
+    />
+
+    <menuitem
+        id="menu_binaryguard_access_cards"
+        name="Access Cards"
+        parent="menu_binaryguard_access_cards_root"
+        action="action_binaryguard_access_cards"
+        sequence="10"
+    />
+
+</odoo>

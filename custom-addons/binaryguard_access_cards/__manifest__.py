@@ -1,0 +1,26 @@
+{
+    "name": "BinaryGuard Access Card Management",
+    "version": "19.0.1.0.0",
+    "summary": "Access card issuance, assignment and lifecycle tracking",
+    "author": "BinaryGuard Innovations Inc.",
+    "website": "https://binaryguard.ca",
+    "category": "Operations/Access Control",
+    "license": "LGPL-3",
+    "depends": [
+        "mail",
+        "hr",
+        "project",
+        "binaryguard_core",
+        "binaryguard_assets",
+        "binaryguard_contracts",
+        "binaryguard_helpdesk",
+    ],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/access_card_sequence.xml",
+        "views/access_card_views.xml",
+    ],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}
