@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_form_binaryguard" model="ir.ui.view">
+        <field name="name">crm.lead.form.binaryguard</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="BinaryGuard Assessment"
+                      name="binaryguard_assessment">
+
+                    <group>
+                        <group string="Client and Service">
+                            <field name="binaryguard_client_type"/>
+                            <field name="binaryguard_service_category"/>
+                            <field name="binaryguard_site_location"/>
+                            <field name="binaryguard_contract_reference"/>
+                        </group>
+
+                        <group string="Technical Assignment">
+                            <field name="binaryguard_system_type"/>
+                            <field name="binaryguard_technician_id"/>
+                            <field name="binaryguard_follow_up_date"/>
+                            <field name="binaryguard_estimated_hours"/>
+                        </group>
+                    </group>
+
+                    <group string="Service Requirements">
+                        <field name="binaryguard_remote_support"/>
+                        <field name="binaryguard_site_visit"/>
+                    </group>
+
+                    <group string="Technical Assessment">
+                        <field name="binaryguard_technical_notes"
+                               placeholder="Enter the existing system, reported issue, scope and recommended next action..."/>
+                    </group>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
