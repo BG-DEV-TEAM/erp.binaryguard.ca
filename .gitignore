@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Odoo runtime data
+*.log
+logs/
+sessions/
+filestore/
+data/
+backups/
+*.sql
+*.dump
+*.zip
+*.tar.gz
+
+# Secrets and configuration
+.env
+.env.*
+!.env.example
+odoo.conf
+*.key
+*.pem
+*.crt
+
+# Editors
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
