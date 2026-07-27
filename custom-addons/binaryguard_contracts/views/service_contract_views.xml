@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_binaryguard_service_contract_list"
+            model="ir.ui.view">
+        <field name="name">binaryguard.service.contract.list</field>
+        <field name="model">binaryguard.service.contract</field>
+        <field name="arch" type="xml">
+            <list string="Service Contracts"
+                  decoration-success="state == 'active'"
+                  decoration-warning="state == 'on_hold'"
+                  decoration-muted="state in ('expired', 'cancelled')">
+                <field name="name"/>
+                <field name="contract_title"/>
+                <field name="customer_id"/>
+                <field name="contract_type"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="assigned_manager_id"/>
+                <field name="contract_value"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_service_contract_form"
+            model="ir.ui.view">
+        <field name="name">binaryguard.service.contract.form</field>
+        <field name="model">binaryguard.service.contract</field>
+        <field name="arch" type="xml">
+            <form string="Service Contract">
+
+                <header>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,active,on_hold,expired,cancelled"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="contract_title"/>
+                        <h1>
+                            <field name="contract_title"
+                                   placeholder="Service contract title"/>
+                        </h1>
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Customer and Contract">
+                            <field name="customer_id"/>
+                            <field name="contact_id"/>
+                            <field name="contract_type"/>
+                            <field name="assigned_manager_id"/>
+                        </group>
+
+                        <group string="Contract Period">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="renewal_date"/>
+                            <field name="billing_frequency"/>
+                            <field name="contract_value"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Service Level Agreement">
+                            <group>
+                                <group string="Response Targets">
+                                    <field name="response_time_hours"/>
+                                    <field name="resolution_time_hours"/>
+                                    <field name="preventive_visits_per_year"/>
+                                </group>
+
+                                <group string="Included Services">
+                                    <field name="remote_support_included"/>
+                                    <field name="site_visits_included"/>
+                                    <field name="parts_included"/>
+                                    <field name="after_hours_support"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Covered Assets">
+                            <field name="asset_ids"
+                                   widget="many2many_tags"/>
+                        </page>
+
+                        <page string="Related Records">
+                            <group>
+                                <field name="sale_order_id"/>
+                                <field name="project_id"/>
+                                <field name="invoice_id"/>
+                            </group>
+                        </page>
+
+                        <page string="Scope and Exclusions">
+                            <group string="Scope of Service">
+                                <field name="scope_of_service"/>
+                            </group>
+
+                            <group string="Exclusions">
+                                <field name="exclusions"/>
+                            </group>
+                        </page>
+
+                        <page string="Internal Notes">
+                            <field name="internal_notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_service_contract_search"
+            model="ir.ui.view">
+        <field name="name">binaryguard.service.contract.search</field>
+        <field name="model">binaryguard.service.contract</field>
+        <field name="arch" type="xml">
+            <search string="Search Service Contracts">
+                <field name="name"/>
+                <field name="contract_title"/>
+                <field name="customer_id"/>
+                <field name="assigned_manager_id"/>
+
+                <separator/>
+
+                <filter name="active_contracts"
+                        string="Active"
+                        domain="[('state', '=', 'active')]"/>
+
+                <filter name="draft_contracts"
+                        string="Draft"
+                        domain="[('state', '=', 'draft')]"/>
+
+                <filter name="expired_contracts"
+                        string="Expired"
+                        domain="[('state', '=', 'expired')]"/>
+
+                <separator/>
+
+                <filter name="group_customer"
+                        string="Customer"
+                        context="{'group_by': 'customer_id'}"/>
+
+                <filter name="group_contract_type"
+                        string="Contract Type"
+                        context="{'group_by': 'contract_type'}"/>
+
+                <filter name="group_status"
+                        string="Status"
+                        context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_binaryguard_service_contracts"
+            model="ir.actions.act_window">
+        <field name="name">Service Contracts</field>
+        <field name="res_model">binaryguard.service.contract</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="view_binaryguard_service_contract_search"/>
+    </record>
+
+    <menuitem
+        id="menu_binaryguard_contracts_root"
+        name="BinaryGuard Contracts"
+        sequence="55"
+    />
+
+    <menuitem
+        id="menu_binaryguard_service_contracts"
+        name="Service Contracts"
+        parent="menu_binaryguard_contracts_root"
+        action="action_binaryguard_service_contracts"
+        sequence="10"
+    />
+
+</odoo>

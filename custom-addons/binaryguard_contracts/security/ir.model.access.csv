@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_binaryguard_service_contract_user,binaryguard.service.contract.user,model_binaryguard_service_contract,base.group_user,1,1,1,0
+access_binaryguard_service_contract_admin,binaryguard.service.contract.admin,model_binaryguard_service_contract,base.group_system,1,1,1,1
