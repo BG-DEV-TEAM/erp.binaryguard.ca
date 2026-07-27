@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_employee_form_binaryguard"
+            model="ir.ui.view">
+
+        <field name="name">binaryguard.hr.employee.form</field>
+
+        <field name="model">hr.employee</field>
+
+        <field name="inherit_id"
+               ref="hr.view_employee_form"/>
+
+        <field name="arch"
+               type="xml">
+
+            <xpath expr="//notebook"
+                   position="inside">
+
+                <page string="BinaryGuard">
+
+                    <group>
+
+                        <field name="binaryguard_employee_no"/>
+
+                        <field name="binaryguard_department_code"/>
+
+                        <field name="binaryguard_security_clearance"/>
+
+                        <field name="binaryguard_certification"/>
+
+                        <field name="binaryguard_company_vehicle"/>
+
+                        <field name="binaryguard_field_technician"/>
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>
