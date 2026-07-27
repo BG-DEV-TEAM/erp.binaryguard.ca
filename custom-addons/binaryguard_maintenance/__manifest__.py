@@ -1,0 +1,26 @@
+{
+    "name": "BinaryGuard Preventive Maintenance",
+    "version": "19.0.1.0.0",
+    "summary": "Preventive maintenance planning and service scheduling",
+    "author": "BinaryGuard Innovations Inc.",
+    "website": "https://binaryguard.ca",
+    "category": "Services/Maintenance",
+    "license": "LGPL-3",
+    "depends": [
+        "mail",
+        "maintenance",
+        "project",
+        "binaryguard_assets",
+        "binaryguard_contracts",
+        "binaryguard_field_service",
+        "binaryguard_helpdesk",
+    ],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/maintenance_sequence.xml",
+        "views/maintenance_plan_views.xml",
+    ],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

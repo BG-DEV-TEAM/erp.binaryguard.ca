@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_binaryguard_maintenance_plan_list"
+            model="ir.ui.view">
+        <field name="name">binaryguard.maintenance.plan.list</field>
+        <field name="model">binaryguard.maintenance.plan</field>
+        <field name="arch" type="xml">
+            <list string="Preventive Maintenance Plans"
+                  decoration-success="state == 'completed'"
+                  decoration-warning="state == 'due'"
+                  decoration-danger="state == 'cancelled'"
+                  decoration-muted="state == 'on_hold'">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="customer_id"/>
+                <field name="maintenance_type"/>
+                <field name="frequency"/>
+                <field name="next_service_date"/>
+                <field name="assigned_technician_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_maintenance_plan_form"
+            model="ir.ui.view">
+        <field name="name">binaryguard.maintenance.plan.form</field>
+        <field name="model">binaryguard.maintenance.plan</field>
+        <field name="arch" type="xml">
+            <form string="Preventive Maintenance Plan">
+
+                <header>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,active,due,in_progress,completed,on_hold,cancelled"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="title"/>
+                        <h1>
+                            <field name="title"
+                                   placeholder="Maintenance plan title"/>
+                        </h1>
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Customer and Assignment">
+                            <field name="customer_id"/>
+                            <field name="site_location"/>
+                            <field name="assigned_technician_id"/>
+                            <field name="contract_id"/>
+                            <field name="project_id"/>
+                        </group>
+
+                        <group string="Schedule">
+                            <field name="maintenance_type"/>
+                            <field name="frequency"/>
+                            <field name="interval_days"
+                                   invisible="frequency != 'custom'"/>
+                            <field name="start_date"/>
+                            <field name="last_service_date"/>
+                            <field name="next_service_date"/>
+                            <field name="estimated_hours"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Covered Assets">
+                            <field name="asset_ids"
+                                   widget="many2many_tags"/>
+                        </page>
+
+                        <page string="Checklist">
+                            <field name="checklist"
+                                   placeholder="Enter preventive maintenance tasks and inspection points..."/>
+                        </page>
+
+                        <page string="Service Notes">
+                            <field name="service_notes"
+                                   placeholder="Enter completed work, findings and recommendations..."/>
+                        </page>
+
+                        <page string="Internal Notes">
+                            <field name="internal_notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_maintenance_plan_search"
+            model="ir.ui.view">
+        <field name="name">binaryguard.maintenance.plan.search</field>
+        <field name="model">binaryguard.maintenance.plan</field>
+        <field name="arch" type="xml">
+            <search string="Search Maintenance Plans">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="customer_id"/>
+                <field name="assigned_technician_id"/>
+
+                <separator/>
+
+                <filter name="active_plans"
+                        string="Active"
+                        domain="[('state', '=', 'active')]"/>
+
+                <filter name="due_plans"
+                        string="Due"
+                        domain="[('state', '=', 'due')]"/>
+
+                <filter name="in_progress_plans"
+                        string="In Progress"
+                        domain="[('state', '=', 'in_progress')]"/>
+
+                <separator/>
+
+                <filter name="group_customer"
+                        string="Customer"
+                        context="{'group_by': 'customer_id'}"/>
+
+                <filter name="group_type"
+                        string="Maintenance Type"
+                        context="{'group_by': 'maintenance_type'}"/>
+
+                <filter name="group_status"
+                        string="Status"
+                        context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_binaryguard_maintenance_plans"
+            model="ir.actions.act_window">
+        <field name="name">Preventive Maintenance</field>
+        <field name="res_model">binaryguard.maintenance.plan</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="view_binaryguard_maintenance_plan_search"/>
+    </record>
+
+    <menuitem
+        id="menu_binaryguard_maintenance_root"
+        name="BinaryGuard Maintenance"
+        sequence="60"
+    />
+
+    <menuitem
+        id="menu_binaryguard_maintenance_plans"
+        name="Maintenance Plans"
+        parent="menu_binaryguard_maintenance_root"
+        action="action_binaryguard_maintenance_plans"
+        sequence="10"
+    />
+
+</odoo>
