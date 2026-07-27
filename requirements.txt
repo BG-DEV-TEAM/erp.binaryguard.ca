@@ -1,0 +1,2 @@
+# Extra Python packages required by BinaryGuard custom Odoo modules.
+# Add only packages that are not already provided by the Odoo environment.
