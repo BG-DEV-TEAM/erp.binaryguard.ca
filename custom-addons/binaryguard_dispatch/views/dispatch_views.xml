@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_binaryguard_dispatch_list" model="ir.ui.view">
+        <field name="name">binaryguard.dispatch.list</field>
+        <field name="model">binaryguard.dispatch</field>
+        <field name="arch" type="xml">
+            <list string="Dispatches"
+                  decoration-danger="priority == '3' or state == 'cancelled'"
+                  decoration-warning="priority == '2'"
+                  decoration-success="state in ('work_completed', 'closed')">
+
+                <field name="name"/>
+                <field name="title"/>
+                <field name="customer_id"/>
+                <field name="dispatch_type"/>
+                <field name="priority"/>
+                <field name="assigned_technician_id"/>
+                <field name="site_location"/>
+                <field name="scheduled_start"/>
+                <field name="scheduled_end"/>
+                <field name="state"/>
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_dispatch_form" model="ir.ui.view">
+        <field name="name">binaryguard.dispatch.form</field>
+        <field name="model">binaryguard.dispatch</field>
+        <field name="arch" type="xml">
+            <form string="Technician Dispatch">
+
+                <header>
+                    <button name="action_assign"
+                            type="object"
+                            string="Assign"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_accept"
+                            type="object"
+                            string="Accept"
+                            class="btn-primary"
+                            invisible="state != 'assigned'"/>
+
+                    <button name="action_on_route"
+                            type="object"
+                            string="On Route"
+                            class="btn-primary"
+                            invisible="state != 'accepted'"/>
+
+                    <button name="action_on_site"
+                            type="object"
+                            string="Arrived On Site"
+                            class="btn-primary"
+                            invisible="state != 'on_route'"/>
+
+                    <button name="action_start_work"
+                            type="object"
+                            string="Start Work"
+                            class="btn-primary"
+                            invisible="state != 'on_site'"/>
+
+                    <button name="action_complete_work"
+                            type="object"
+                            string="Complete Work"
+                            class="btn-primary"
+                            invisible="state != 'work_started'"/>
+
+                    <button name="action_close"
+                            type="object"
+                            string="Close"
+                            class="btn-primary"
+                            invisible="state != 'work_completed'"/>
+
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel"
+                            invisible="state in ('closed', 'cancelled')"/>
+
+                    <button name="action_reset_draft"
+                            type="object"
+                            string="Reset to Draft"
+                            invisible="state != 'cancelled'"/>
+
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,assigned,accepted,on_route,on_site,work_started,work_completed,closed"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="title"/>
+                        <h1>
+                            <field name="title"
+                                   placeholder="Enter dispatch title"/>
+                        </h1>
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Dispatch Information">
+                            <field name="dispatch_type"/>
+                            <field name="priority"/>
+                            <field name="dispatcher_id"/>
+                            <field name="assigned_technician_id"/>
+                        </group>
+
+                        <group string="Customer and Site">
+                            <field name="customer_id"/>
+                            <field name="site_location"/>
+                        </group>
+                    </group>
+
+                    <group string="Schedule">
+                        <group>
+                            <field name="scheduled_start"/>
+                            <field name="scheduled_end"/>
+                        </group>
+
+                        <group>
+                            <field name="estimated_hours"/>
+                            <field name="actual_start" readonly="1"/>
+                            <field name="actual_end" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Instructions">
+                            <field name="dispatch_instructions"/>
+                        </page>
+
+                        <page string="Technician Work">
+                            <group string="Technician Notes">
+                                <field name="technician_notes"/>
+                            </group>
+
+                            <group string="Completion Summary">
+                                <field name="completion_summary"/>
+                            </group>
+                        </page>
+
+                        <page string="Follow-Up">
+                            <group>
+                                <field name="follow_up_required"/>
+                                <field name="follow_up_notes"
+                                       invisible="not follow_up_required"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_dispatch_kanban" model="ir.ui.view">
+        <field name="name">binaryguard.dispatch.kanban</field>
+        <field name="model">binaryguard.dispatch</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state"
+                    quick_create="false"
+                    class="o_kanban_small_column">
+
+                <field name="name"/>
+                <field name="title"/>
+                <field name="customer_id"/>
+                <field name="priority"/>
+                <field name="assigned_technician_id"/>
+                <field name="site_location"/>
+                <field name="scheduled_start"/>
+                <field name="state"/>
+
+                <templates>
+                    <t t-name="card">
+                        <div class="fw-bold">
+                            <field name="name"/>
+                        </div>
+
+                        <div class="mb-2">
+                            <field name="title"/>
+                        </div>
+
+                        <div>
+                            <strong>Customer:</strong>
+                            <field name="customer_id"/>
+                        </div>
+
+                        <div>
+                            <strong>Technician:</strong>
+                            <field name="assigned_technician_id"/>
+                        </div>
+
+                        <div>
+                            <strong>Site:</strong>
+                            <field name="site_location"/>
+                        </div>
+
+                        <div>
+                            <strong>Scheduled:</strong>
+                            <field name="scheduled_start"/>
+                        </div>
+
+                        <div class="mt-2">
+                            <field name="priority" widget="priority"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_dispatch_calendar" model="ir.ui.view">
+        <field name="name">binaryguard.dispatch.calendar</field>
+        <field name="model">binaryguard.dispatch</field>
+        <field name="arch" type="xml">
+            <calendar string="Dispatch Schedule"
+                      date_start="scheduled_start"
+                      date_stop="scheduled_end"
+                      color="assigned_technician_id"
+                      mode="week"
+                      quick_create="false">
+
+                <field name="name"/>
+                <field name="title"/>
+                <field name="customer_id"/>
+                <field name="assigned_technician_id"/>
+                <field name="site_location"/>
+                <field name="priority"/>
+                <field name="state"/>
+
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_dispatch_search" model="ir.ui.view">
+        <field name="name">binaryguard.dispatch.search</field>
+        <field name="model">binaryguard.dispatch</field>
+        <field name="arch" type="xml">
+            <search string="Search Dispatches">
+
+                <field name="name"/>
+                <field name="title"/>
+                <field name="customer_id"/>
+                <field name="assigned_technician_id"/>
+                <field name="site_location"/>
+
+                <separator/>
+
+                <filter name="open_dispatches"
+                        string="Open"
+                        domain="[('state', 'not in', ['closed', 'cancelled'])]"/>
+
+                <filter name="emergency_dispatches"
+                        string="Emergency"
+                        domain="[('priority', '=', '3')]"/>
+
+                <filter name="on_route_dispatches"
+                        string="On Route"
+                        domain="[('state', '=', 'on_route')]"/>
+
+                <filter name="on_site_dispatches"
+                        string="On Site"
+                        domain="[('state', 'in', ['on_site', 'work_started'])]"/>
+
+                <filter name="follow_up_dispatches"
+                        string="Follow-Up Required"
+                        domain="[('follow_up_required', '=', True)]"/>
+
+                <separator/>
+
+                <filter name="group_technician"
+                        string="Technician"
+                        context="{'group_by': 'assigned_technician_id'}"/>
+
+                <filter name="group_status"
+                        string="Status"
+                        context="{'group_by': 'state'}"/>
+
+                <filter name="group_type"
+                        string="Dispatch Type"
+                        context="{'group_by': 'dispatch_type'}"/>
+
+                <filter name="group_customer"
+                        string="Customer"
+                        context="{'group_by': 'customer_id'}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_binaryguard_dispatch" model="ir.actions.act_window">
+        <field name="name">Dispatch Management</field>
+        <field name="res_model">binaryguard.dispatch</field>
+        <field name="view_mode">kanban,list,calendar,form</field>
+        <field name="search_view_id"
+               ref="view_binaryguard_dispatch_search"/>
+    </record>
+
+    <menuitem id="menu_binaryguard_dispatch_root"
+              name="BinaryGuard Dispatch"
+              sequence="75"/>
+
+    <menuitem id="menu_binaryguard_dispatch_board"
+              name="Dispatch Board"
+              parent="menu_binaryguard_dispatch_root"
+              action="action_binaryguard_dispatch"
+              sequence="10"/>
+
+</odoo>
