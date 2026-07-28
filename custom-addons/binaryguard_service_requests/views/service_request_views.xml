@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_binaryguard_service_request_list"
+            model="ir.ui.view">
+
+        <field name="name">binaryguard.service.request.list</field>
+        <field name="model">binaryguard.service.request</field>
+
+        <field name="arch" type="xml">
+            <list string="Service Requests"
+                  decoration-info="state == 'submitted'"
+                  decoration-warning="state in ('triage', 'assigned')"
+                  decoration-primary="state == 'in_progress'"
+                  decoration-success="state in ('resolved', 'closed')"
+                  decoration-danger="priority == '4' or state == 'cancelled'"
+                  decoration-muted="state == 'waiting_customer'">
+
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="customer_id"/>
+                <field name="request_type"/>
+                <field name="system_category"/>
+                <field name="priority"/>
+                <field name="assigned_user_id"/>
+                <field name="scheduled_date"/>
+                <field name="state"/>
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_service_request_form"
+            model="ir.ui.view">
+
+        <field name="name">binaryguard.service.request.form</field>
+        <field name="model">binaryguard.service.request</field>
+
+        <field name="arch" type="xml">
+            <form string="Service Request">
+
+                <header>
+                    <button name="action_submit"
+                            type="object"
+                            string="Submit"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_triage"
+                            type="object"
+                            string="Start Triage"
+                            class="btn-primary"
+                            invisible="state != 'submitted'"/>
+
+                    <button name="action_assign"
+                            type="object"
+                            string="Assign"
+                            class="btn-primary"
+                            invisible="state != 'triage'"/>
+
+                    <button name="action_start"
+                            type="object"
+                            string="Start Work"
+                            class="btn-primary"
+                            invisible="state != 'assigned'"/>
+
+                    <button name="action_waiting_customer"
+                            type="object"
+                            string="Wait for Customer"
+                            invisible="state not in ('triage', 'assigned', 'in_progress')"/>
+
+                    <button name="action_resolve"
+                            type="object"
+                            string="Resolve"
+                            class="btn-primary"
+                            invisible="state not in ('in_progress', 'waiting_customer')"/>
+
+                    <button name="action_close"
+                            type="object"
+                            string="Close"
+                            class="btn-primary"
+                            invisible="state != 'resolved'"/>
+
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel"
+                            invisible="state in ('closed', 'cancelled')"/>
+
+                    <button name="action_reset_draft"
+                            type="object"
+                            string="Reset to Draft"
+                            invisible="state != 'cancelled'"/>
+
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,submitted,triage,assigned,in_progress,waiting_customer,resolved,closed"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="subject"/>
+
+                        <h1>
+                            <field name="subject"
+                                   placeholder="Describe the service request"/>
+                        </h1>
+
+                        <h2>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Customer and Request">
+                            <field name="customer_id"/>
+                            <field name="contact_id"/>
+                            <field name="customer_reference"/>
+                            <field name="request_type"/>
+                            <field name="system_category"/>
+                            <field name="priority"/>
+                        </group>
+
+                        <group string="Assignment and Schedule">
+                            <field name="assigned_user_id"/>
+                            <field name="requested_date"/>
+                            <field name="scheduled_date"/>
+                            <field name="estimated_hours"/>
+                            <field name="remote_support_possible"/>
+                            <field name="site_visit_required"/>
+                            <field name="contract_covered"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Request Details">
+                            <field name="description"
+                                   placeholder="Describe the issue, request, symptoms and required service..."/>
+                        </page>
+
+                        <page string="Site">
+                            <group>
+                                <field name="site_location"/>
+                                <field name="building"/>
+                                <field name="room_or_area"/>
+                            </group>
+                        </page>
+
+                        <page string="Related Records">
+                            <group>
+                                <group>
+                                    <field name="contract_id"/>
+                                    <field name="asset_id"/>
+                                    <field name="helpdesk_ticket_id"/>
+                                </group>
+
+                                <group>
+                                    <field name="project_id"/>
+                                    <field name="field_service_task_id"/>
+                                    <field name="response_date"/>
+                                    <field name="completed_date"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Resolution">
+                            <field name="resolution_summary"
+                                   placeholder="Enter diagnosis, work completed, test results and recommendations..."/>
+                        </page>
+
+                        <page string="Internal">
+                            <group>
+                                <field name="portal_visible"/>
+                                <field name="active"/>
+                            </group>
+
+                            <field name="internal_notes"
+                                   placeholder="Internal notes not visible to customers..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_binaryguard_service_request_search"
+            model="ir.ui.view">
+
+        <field name="name">binaryguard.service.request.search</field>
+        <field name="model">binaryguard.service.request</field>
+
+        <field name="arch" type="xml">
+            <search string="Search Service Requests">
+
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="customer_id"/>
+                <field name="assigned_user_id"/>
+                <field name="asset_id"/>
+                <field name="contract_id"/>
+
+                <separator/>
+
+                <filter name="open_requests"
+                        string="Open"
+                        domain="[('state', 'not in', ['closed', 'cancelled'])]"/>
+
+                <filter name="critical_requests"
+                        string="Critical"
+                        domain="[('priority', '=', '4')]"/>
+
+                <filter name="waiting_customer"
+                        string="Waiting for Customer"
+                        domain="[('state', '=', 'waiting_customer')]"/>
+
+                <filter name="site_visits"
+                        string="Site Visit Required"
+                        domain="[('site_visit_required', '=', True)]"/>
+
+                <separator/>
+
+                <filter name="group_customer"
+                        string="Customer"
+                        context="{'group_by': 'customer_id'}"/>
+
+                <filter name="group_type"
+                        string="Request Type"
+                        context="{'group_by': 'request_type'}"/>
+
+                <filter name="group_category"
+                        string="System Category"
+                        context="{'group_by': 'system_category'}"/>
+
+                <filter name="group_technician"
+                        string="Technician"
+                        context="{'group_by': 'assigned_user_id'}"/>
+
+                <filter name="group_status"
+                        string="Status"
+                        context="{'group_by': 'state'}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_binaryguard_service_requests"
+            model="ir.actions.act_window">
+
+        <field name="name">Service Requests</field>
+        <field name="res_model">binaryguard.service.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="view_binaryguard_service_request_search"/>
+
+    </record>
+
+    <menuitem
+        id="menu_binaryguard_service_requests_root"
+        name="BinaryGuard Service"
+        sequence="70"
+    />
+
+    <menuitem
+        id="menu_binaryguard_service_requests"
+        name="Service Requests"
+        parent="menu_binaryguard_service_requests_root"
+        action="action_binaryguard_service_requests"
+        sequence="10"
+    />
+
+</odoo>
