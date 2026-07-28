@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_portal_binaryguard_asset,portal.binaryguard.asset,binaryguard_assets.model_binaryguard_asset,base.group_portal,1,0,0,0
+access_portal_binaryguard_contract,portal.binaryguard.contract,binaryguard_contracts.model_binaryguard_service_contract,base.group_portal,1,0,0,0
+access_portal_binaryguard_helpdesk,portal.binaryguard.helpdesk,binaryguard_helpdesk.model_binaryguard_helpdesk_ticket,base.group_portal,1,0,0,0
+access_portal_binaryguard_access_card,portal.binaryguard.access.card,binaryguard_access_cards.model_binaryguard_access_card,base.group_portal,1,0,0,0
+access_portal_binaryguard_maintenance,portal.binaryguard.maintenance,binaryguard_maintenance.model_binaryguard_maintenance_plan,base.group_portal,1,0,0,0

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rule_portal_binaryguard_assets" model="ir.rule">
+        <field name="name">Portal: customer assets only</field>
+        <field name="model_id" ref="binaryguard_assets.model_binaryguard_asset"/>
+        <field name="domain_force">
+            [('customer_id', 'child_of', [user.partner_id.commercial_partner_id.id])]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_binaryguard_contracts" model="ir.rule">
+        <field name="name">Portal: customer service contracts only</field>
+        <field name="model_id"
+               ref="binaryguard_contracts.model_binaryguard_service_contract"/>
+        <field name="domain_force">
+            [('customer_id', 'child_of', [user.partner_id.commercial_partner_id.id])]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_binaryguard_helpdesk" model="ir.rule">
+        <field name="name">Portal: customer helpdesk tickets only</field>
+        <field name="model_id"
+               ref="binaryguard_helpdesk.model_binaryguard_helpdesk_ticket"/>
+        <field name="domain_force">
+            [('customer_id', 'child_of', [user.partner_id.commercial_partner_id.id])]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_binaryguard_access_cards" model="ir.rule">
+        <field name="name">Portal: customer access cards only</field>
+        <field name="model_id"
+               ref="binaryguard_access_cards.model_binaryguard_access_card"/>
+        <field name="domain_force">
+            [('customer_id', 'child_of', [user.partner_id.commercial_partner_id.id])]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_binaryguard_maintenance" model="ir.rule">
+        <field name="name">Portal: customer maintenance plans only</field>
+        <field name="model_id"
+               ref="binaryguard_maintenance.model_binaryguard_maintenance_plan"/>
+        <field name="domain_force">
+            [('customer_id', 'child_of', [user.partner_id.commercial_partner_id.id])]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>
