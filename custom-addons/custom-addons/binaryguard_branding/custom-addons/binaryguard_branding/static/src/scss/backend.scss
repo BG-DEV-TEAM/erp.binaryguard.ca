@@ -1,0 +1,49 @@
+/* BinaryGuard ERP backend branding */
+
+:root {
+    --binaryguard-primary: #0057b8;
+    --binaryguard-secondary: #0f172a;
+    --binaryguard-accent: #00b7ff;
+    --binaryguard-background: #f5f7fa;
+}
+
+/* Main Odoo navigation bar */
+.o_main_navbar {
+    background-color: var(--binaryguard-secondary) !important;
+    border-bottom-color: var(--binaryguard-primary) !important;
+}
+
+/* Navbar buttons and menu items */
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_nav_entry,
+.o_main_navbar .dropdown-toggle {
+    color: #ffffff !important;
+}
+
+/* Primary action buttons */
+.btn-primary {
+    background-color: var(--binaryguard-primary) !important;
+    border-color: var(--binaryguard-primary) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #004795 !important;
+    border-color: #004795 !important;
+}
+
+/* Selected menu items */
+.o_menu_sections .dropdown-item.active,
+.o_menu_sections .dropdown-item:active {
+    background-color: var(--binaryguard-primary) !important;
+}
+
+/* Links */
+a {
+    color: var(--binaryguard-primary);
+}
+
+/* Application background */
+.o_web_client {
+    background-color: var(--binaryguard-background);
+}
