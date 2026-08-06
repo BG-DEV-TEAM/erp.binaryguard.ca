@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="binaryguard_web_layout"
+              inherit_id="web.layout"
+              name="BinaryGuard Web Layout">
+
+        <xpath expr="//link[@rel='shortcut icon']"
+               position="replace">
+            <link rel="shortcut icon"
+                  type="image/png"
+                  href="/binaryguard_branding/static/src/img/favicon.png"/>
+        </xpath>
+
+    </template>
+</odoo>

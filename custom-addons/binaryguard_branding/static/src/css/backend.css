@@ -1,0 +1,15 @@
+/*
+ * BinaryGuard ERP backend branding
+ */
+
+.o_main_navbar {
+    font-weight: 500;
+}
+
+.o_home_menu_background {
+    background-image: none;
+}
+
+.o_web_client {
+    --binaryguard-brand-name: "BinaryGuard ERP";
+}
